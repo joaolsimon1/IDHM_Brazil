@@ -64,7 +64,6 @@ plot_gg(mtplot, multicore = TRUE, width = 12 ,height=12, scale = 150, windowsize
         zoom = 0.55, phi = 30, pointcontract=1, background="#ebebe5", units = "cm")
 
 
-
 ## Movimentação da camera
 ease_function = function(beginning, end, steepness = 1, length.out = 180) {
   single = (end) + (beginning - end) * 1/(1 + exp(seq(-10, 10, length.out = length.out)/(1/steepness)))
@@ -73,6 +72,7 @@ ease_function = function(beginning, end, steepness = 1, length.out = 180) {
 
 zoom_values = c(ease_function(0.4,0.2), ease_function(0.2,0.4))
 
+## Gerando o vídeo
 render_movie(filename = "IDHM_teste4", type = "custom",
              fps = 30,
              phi = 50 + 40 * cos(1:360 * pi /180), 
@@ -85,17 +85,10 @@ render_camera(theta=.5,phi=68,fov=0,zoom=0.55)
 
 
 ##############################################################################
-
-library(janitor)
-
-library(scico)
-
-library(gghighlight)
-
 #### MISC ####
-font <- "Gudea"
+font <- "Gudea" # Text Font
 font_add_google(family=font, font, db_cache = TRUE)
-bg <- "#F4F5F1"
+bg <- "#F4F5F1" # Background color
 txt_col <- "black"
 showtext_auto(enable = TRUE)
 
@@ -124,6 +117,7 @@ theme_map <- function(...) {
     )
 }
 
+## Heatmap do IDHM em 2D
 mtplot <- ggplot(data = dados_finais) +
   geom_sf(aes(fill = IDHM), color = NA) +
   theme_map(legend.position = c(0.8, .1)) +
@@ -134,11 +128,13 @@ mtplot <- ggplot(data = dados_finais) +
        caption = "**Autor:** João L. Simon <br> **Fonte:** Atlas Brasil, 2010") + 
   theme(plot.caption = element_markdown(hjust = 0))
 
+## Texto do subtítulo
 text <- tibble(
   x = 0, y = 0,
   label = "O Índice de Desenvolvimento Humano Municipal (IDHM) é uma medida composta de indicadores de três dimensões do desenvolvimento humano: longevidade, educação e renda. O índice varia de 0 a 1. Quanto mais próximo de 1, maior é o padrão e qualidade de vida da população local."
 )
 
+## Gerando o subtítulo no formato ggplot
 sub <- ggplot(text, aes(x = x, y = y)) +
   geom_textbox(
     aes(label = label),
@@ -149,12 +145,13 @@ sub <- ggplot(text, aes(x = x, y = y)) +
   theme_void() +
   theme(plot.background = element_rect(color=bg, fill=bg))
 
-# TITLE
+# Título
 text2 <- tibble(
   x = 0, y = 0,
   label = "**O que é o <br>IDHM?**"
 )
 
+## Gerando o título no formato ggplot
 title <- ggplot(text2, aes(x = x, y = y)) +
   geom_textbox(
     aes(label = label),
@@ -165,7 +162,7 @@ title <- ggplot(text2, aes(x = x, y = y)) +
   theme_void() +
   theme(plot.background = element_rect(color=bg, fill=bg))
 
-
+## Juntando todos os 3 gráficos e gerando a "borda" branca ao redor
 finalPlot <- (title+sub)/mtplot +
   plot_layout(heights = c(1, 2)) +
   plot_annotation(
@@ -176,7 +173,7 @@ finalPlot <- (title+sub)/mtplot +
 
 showtext_opts(dpi = 600) 
 
-# Save the figure
+# Salvando a figura final
 ggsave("consumer_confidence.png",
        bg=bg,
        height = 7,
