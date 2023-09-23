@@ -11,7 +11,7 @@ library(patchwork)
 
 ########## Dados apenas com as informações pontuais
 dados <- read_excel("Atlas 2013_municipal, estadual e Brasil.xlsx", sheet = "MUN 91-00-10") # Lendo os dados
-dados <- dados %>% dplyr::select(Codmun7, ANO, Município, IDHM) # Selecionando apenas as variáveis que iremos utilizar
+dados <- dados %>% select(Codmun7, ANO, Município, IDHM) # Selecionando apenas as variáveis que iremos utilizar
 dados_2010 <- dados %>% filter(ANO == "2010") # Filtrando apenas o IDHM de 2010
 
 malha_municipal <- geobr::read_municipality() # Lendo os dados geoespaciais
