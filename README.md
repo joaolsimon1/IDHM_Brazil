@@ -9,7 +9,7 @@ This project aims to explore the ggplot2 and rayshader packages with the most re
 
 
 
-[ggplot2](https://ggplot2.tidyverse.org/)https://ggplot2.tidyverse.org/)
+[**ggplot2**](https://ggplot2.tidyverse.org/)https://ggplot2.tidyverse.org/)
 
 
 
